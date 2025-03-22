@@ -45,7 +45,7 @@ contract Votacao {
 
     function adicionarItem(string memory _item) public {
         itens.push(_item); 
-        votos[_item] = 0;  // inicializa a contagem de votos com 0
+        votos[_item] = 0;  
     }
 
     function verItens() public view returns (string[] memory) {
@@ -59,39 +59,36 @@ contract Votacao {
     }
 
     function votar(string memory _nome, string memory _item) public {
-   
-        bool pessoaEncontrada = false;
         
+        bool pessoaEncontrada = false;
+        bool itemEncontrado = false;
+
         for (uint i = 0; i < pessoas.length; i++) {
             if (keccak256(abi.encodePacked(pessoas[i].nome)) == keccak256(abi.encodePacked(_nome))) {
                 pessoaEncontrada = true;
-                
-                require(!pessoas[i].votou, "ERRO!!! A pessoa ja votou.");  // Verifica se a pessoa já votou
-                
-                // Verifica se o item existe antes de votar
-                bool itemEncontrado = false;
-                for (uint j = 0; j < itens.length; j++) {
-                    if (keccak256(abi.encodePacked(itens[j])) == keccak256(abi.encodePacked(_item))) {
-                        votos[_item]++;  
-                        pessoas[i].votou = true;  // marca a pessoa como tendo votado
-                        itemEncontrado = true;
-                        return;
-                    }
-                }
-                require(itemEncontrado, "Item nao encontrado!!!");
+                break;
             }
         }
+        require(pessoaEncontrada, "Pessoa nao encontrada!");
+
+        for (uint j = 0; j < itens.length; j++) {
+            if (keccak256(abi.encodePacked(itens[j])) == keccak256(abi.encodePacked(_item))) {
+                votos[_item]++;
+                itemEncontrado = true;
+                break;
+            }
+        }
+        require(itemEncontrado, "Item nao encontrado!");
+            
         
-        require(pessoaEncontrada, "Pessoa nao encontrada!"); // Se a pessoa não for encontrada, reverte a transação
     }
 
-    //  total de votos de cada item
     function resultadoFinal() public view returns (string[] memory, uint[] memory) {
         
         uint[] memory resultados = new uint[](itens.length);
         
         for (uint i = 0; i < itens.length; i++) {
-            resultados[i] = votos[itens[i]];           // armazena o total de votos de cada item
+            resultados[i] = votos[itens[i]];          
         }
         
         return (itens, resultados);        
