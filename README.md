@@ -9,12 +9,3 @@ Este repositório contém smart contracts desenvolvidos para a **Restic36**, uti
 - [Solidity](https://docs.soliditylang.org/) – Linguagem de programação para contratos inteligentes na blockchain Ethereum.
 - [Remix IDE](https://remix.ethereum.org/) – Ambiente de desenvolvimento online para criação, compilação e teste de smart contracts.
 
-## 📁 Estrutura do Repositório
-
-```bash
-ContratosInteligentes-Restic36/
-├── contratos/              # Contratos inteligentes
-│   ├── contratoAluguel.sol
-│   ├── contratoBasico.sol
-│   └── contratoVenda.sol
-├── README.md               # Documentação do projeto
